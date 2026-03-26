@@ -5,315 +5,346 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إلى دنيتي رغد 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; user-select: none; -webkit-tap-highlight-color: transparent; }
-
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Tajawal',sans-serif; user-select:none; -webkit-tap-highlight-color:transparent; }
+        
         body {
-            background: linear-gradient(to bottom, #020111 0%, #1a1a3a 100%);
-            color: white; display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; overflow: hidden; position: relative;
+            background: linear-gradient(to bottom, #020111, #17172f);
+            height:100vh; overflow:hidden; display:flex; justify-content:center; align-items:center; color:white;
         }
 
-        .stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .star { position: absolute; background: white; border-radius: 50%; animation: twinkle infinite alternate; }
-        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 5px #fff; } }
+        /* نجوم محسّنة */
+        .stars { position:absolute; width:100%; height:100%; pointer-events:none; }
+        .star {
+            position:absolute; background:white; border-radius:50%;
+            animation: twinkle infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity:0.2; transform:scale(0.7); }
+            100% { opacity:0.8; transform:scale(1.1); box-shadow:0 0 5px #fff; }
+        }
 
+        /* القلوب */
         .heart {
-            position: absolute; color: #ff6eb4; bottom: -50px;
-            animation: floatUp 6s infinite linear; opacity: 0; z-index: 1;
+            position:absolute; bottom:-50px; color:#ff6eb4;
+            animation: floatUp linear forwards;
+            opacity:0;
         }
         @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
-            20% { opacity: 0.7; }
-            100% { transform: translateY(-115vh) rotate(360deg) scale(1.2); opacity: 0; }
+            0% { transform:translateY(0) scale(0.5); opacity:0; }
+            30% { opacity:1; }
+            100% { transform:translateY(-120vh) scale(1.2); opacity:0; }
         }
 
-        .container { z-index: 10; width: 90%; max-width: 450px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        /* الحاوية */
+        .container { z-index:5; width:90%; max-width:450px; text-align:center; transition:0.5s; }
 
-        .hold-btn-container { position: relative; width: 220px; height: 60px; margin: 20px auto; border-radius: 30px; overflow: hidden; background: rgba(255, 255, 255, 0.05); border: 2px solid #ffb6c1; cursor: pointer; transition: 0.3s; }
-        .hold-btn-container:active { transform: scale(0.98); }
-        .hold-btn-fill { position: absolute; top: 0; right: 0; height: 100%; width: 0%; background: linear-gradient(45deg, #ff6eb4, #ffb6c1); z-index: 1; transition: width 0.1s linear; }
-        .hold-btn-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 1.1rem; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
+        /* زر الضغط المطول */
+        .hold-btn-container {
+            width:220px; height:60px; margin:20px auto;
+            border-radius:30px; overflow:hidden; cursor:pointer;
+            background:rgba(255,255,255,0.05); border:2px solid #ffb6c1;
+            position:relative; transition:0.3s;
+        }
+        .hold-btn-container:active { transform:scale(0.97); }
+        
+        .hold-btn-fill {
+            position:absolute; top:0; right:0; height:100%; width:0%;
+            background:linear-gradient(45deg,#ff6eb4,#ffb6c1);
+            transition:width 0.1s linear; z-index:1;
+        }
+        .hold-btn-text {
+            position:absolute; top:0; left:0; width:100%; height:100%;
+            display:flex; align-items:center; justify-content:center;
+            z-index:2; color:#fff; font-weight:bold; font-size:1.1rem;
+            text-shadow:0 0 10px rgba(0,0,0,0.4);
+        }
 
-        .story-text { font-size: 1.5rem; line-height: 1.8; margin-bottom: 30px; min-height: 120px; color: #ffb6c1; text-shadow: 0 0 10px rgba(255, 182, 193, 0.3); transition: opacity 0.5s; }
-        .typing-cursor::after { content: '|'; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        /* نص القصة */
+        .story-text {
+            font-size:1.5rem; color:#ffb6c1;
+            line-height:1.8; min-height:120px; margin-bottom:30px;
+            text-shadow:0 0 10px rgba(255,182,193,0.3);
+            transition:opacity 0.5s;
+        }
+        .typing-cursor::after { content:"|"; animation:blink 1s infinite; }
+        @keyframes blink { 50% { opacity:0; } }
 
+        /* زر عام + تأثير Ripple */
+        .btn {
+            background:rgba(255,255,255,0.05);
+            border:1px solid #ffb6c1; color:white;
+            padding:12px 35px; border-radius:50px; font-size:1.2rem;
+            cursor:pointer; transition:0.25s; margin:10px;
+            position:relative; overflow:hidden;
+        }
+        .btn:active { transform:scale(0.95); }
+
+        .btn:active::after {
+            content:""; position:absolute; width:200px; height:200px;
+            background:rgba(255,255,255,0.25); border-radius:50%;
+            left:50%; top:50%; transform:translate(-50%,-50%) scale(0);
+            animation:ripple 0.4s linear forwards;
+        }
+        @keyframes ripple { to { transform:translate(-50%,-50%) scale(2); opacity:0; } }
+
+        /* النهاية */
         .final-initials {
-            font-size: 4rem; font-weight: 500; color: #ff6eb4; margin: 0 auto 30px auto;
-            letter-spacing: 5px; text-transform: lowercase; 
-            text-shadow: 0 0 15px rgba(255, 110, 180, 0.7), 0 0 5px #fff;
-            animation: slowPulse 3s infinite ease-in-out;
-            display: inline-block;
+            font-size:4rem; color:#ff6eb4; letter-spacing:5px;
+            text-transform:lowercase; margin-bottom:30px;
+            animation:slowPulse 3s infinite;
+            text-shadow:0 0 15px #ff6eb4;
         }
         @keyframes slowPulse {
-            0%, 100% { transform: scale(1); text-shadow: 0 0 15px rgba(255, 110, 180, 0.7), 0 0 5px #fff; }
-            50% { transform: scale(1.03); text-shadow: 0 0 25px rgba(255, 110, 180, 0.9), 0 0 10px #ff6eb4, 0 0 5px #fff; }
+            0%,100% { transform:scale(1); }
+            50% { transform:scale(1.05); }
         }
 
-        .btn { background: rgba(255,255,255,0.05); border: 1px solid #ffb6c1; color: white; padding: 12px 35px; border-radius: 50px; font-size: 1.2rem; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; margin: 10px; }
-        .btn:active { transform: scale(0.95); background: rgba(255,182,193,0.3); }
+        .countdown-box {
+            background:rgba(0,0,0,0.4); border-radius:15px;
+            padding:15px; margin-top:20px; border:1px solid rgba(255,255,255,0.15);
+            box-shadow:0 0 10px rgba(0,0,0,0.4);
+        }
+        .cd-title { color:#ffb6c1; font-size:1rem; margin-bottom:10px; }
+        .cd-timer { font-size:1.4rem; font-weight:bold; }
 
-        .countdown-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 15px; padding: 15px; margin-top: 20px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .cd-title { color: #ffb6c1; font-size: 1rem; margin-bottom: 10px; }
-        .cd-timer { font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; color: #fff; }
+        .reason-box {
+            margin-top:20px; min-height:80px;
+            color:#fff9c4; font-size:1.2rem; font-style:italic;
+            opacity:0; transition:0.5s; text-shadow:0 0 8px #ffeb3b;
+        }
 
-        .reason-box { margin-top: 20px; min-height: 80px; color: #fff9c4; font-size: 1.2rem; font-style: italic; text-shadow: 0 0 5px #ffeb3b; opacity: 0; transition: 0.5s; }
+        .insta-btn { border-color:#e1306c; color:#ffb6c1; }
 
-        /* تصميم زر الانستجرام */
-        .insta-btn { background: rgba(225, 48, 108, 0.1); border-color: #e1306c; color: #ffb6c1; margin-top: 30px; }
-        .insta-btn:active { background: rgba(225, 48, 108, 0.3); }
-
-        .hidden { display: none !important; }
+        .hidden { display:none; }
     </style>
 </head>
+
 <body>
 
     <audio id="bgMusic" loop>
         <source src="blue.mp3" type="audio/mpeg">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg"> 
     </audio>
 
     <div class="stars" id="starsArea"></div>
     <div id="heartsArea"></div>
 
-    <div class="container" id="mainContainer">
+    <div class="container">
+
+        <!-- شاشة البداية -->
         <div id="introScreen">
-            <div style="font-size: 60px; margin-bottom: 20px;">🌌</div>
-            <h2 style="color: #ffb6c1; margin-bottom: 30px; text-shadow: 0 0 10px rgba(255,182,193,0.3);">جاهزة يا عسولتي؟</h2>
+            <div style="font-size:60px;">🌌</div>
+            <h2 style="color:#ffb6c1; margin:20px 0;">جاهزة يا عسولتي؟</h2>
+
             <div class="hold-btn-container" id="holdBtn">
                 <div class="hold-btn-fill" id="btnFill"></div>
                 <div class="hold-btn-text">اضغطي مطولاً لفتح قلبي</div>
             </div>
-            <p style="font-size: 0.9rem; color: #aaa; margin-top: 10px;">(استمري بالضغط لـ 3 ثواني)</p>
+            <p style="color:#aaa; font-size:0.9rem;">(استمري ٣ ثواني)</p>
         </div>
 
+        <!-- شاشة القصة -->
         <div id="storyScreen" class="hidden">
             <div id="storyText" class="story-text typing-cursor"></div>
             <div id="buttonsArea"></div>
         </div>
 
+        <!-- شاشة النهاية -->
         <div id="finaleScreen" class="hidden">
-            <div class="final-initials">a & r</div>
-            
-            <button class="btn" id="reasonBtn" onclick="generateReason()">ليش أحبك؟ 🤔</button>
+            <div class="final-initials">A & R</div>
+
+            <button class="btn" id="reasonBtn" onclick="generateReason()">ليش أحبك؟ 🤍</button>
             <div class="reason-box" id="reasonText"></div>
 
-            <div class="countdown-box" id="countdownBox">
+            <div class="countdown-box">
                 <div class="cd-title">بانتظار اليوم المنتظر (23 أغسطس):</div>
-                <div class="cd-timer" id="timer">00:00:00:00</div>
+                <div class="cd-timer" id="timer"></div>
             </div>
 
-            <div>
-                <p style="color: #aaa; font-size: 0.9rem; margin-top: 30px; margin-bottom: 10px;">عبرّي عن شعورك..</p>
-                <a href="https://instagram.com/a1_sob" target="_blank" style="text-decoration: none;">
-                    <button class="btn insta-btn">اكتبي لي رسالة 💌</button>
-                </a>
-            </div>
+            <a href="https://instagram.com/a1_sob" target="_blank">
+                <button class="btn insta-btn">اكتبي لي رسالة 💌</button>
+            </a>
         </div>
     </div>
 
-    <script>
-        const starsArea = document.getElementById('starsArea');
-        for(let i=0; i<60; i++) {
-            let star = document.createElement('div');
-            star.className = 'star';
-            star.style.width = Math.random() * 3 + 'px';
-            star.style.height = star.style.width;
-            star.style.left = Math.random() * 100 + 'vw';
-            star.style.top = Math.random() * 100 + 'vh';
-            star.style.animationDuration = Math.random() * 3 + 2 + 's';
-            starsArea.appendChild(star);
-        }
+<script>
+/* ★ إعداد الموسيقى */
+const bgMusic = document.getElementById("bgMusic");
+bgMusic.load();
 
-        function createHeart() {
-            const container = document.getElementById('heartsArea');
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '❤';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 25 + 10) + 'px';
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            container.appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
-        }
-        setInterval(createHeart, 500); 
+/* ★ النجوم */
+const starsArea = document.getElementById("starsArea");
+for (let i=0; i<40; i++) {
+    let star = document.createElement("div");
+    star.className = "star";
+    let size = Math.random()*3+"px";
+    star.style.width = size;
+    star.style.height = size;
+    star.style.left = Math.random()*100+"vw";
+    star.style.top = Math.random()*100+"vh";
+    star.style.animationDuration = (Math.random()*3+2)+"s";
+    starsArea.appendChild(star);
+}
 
-        const holdBtn = document.getElementById('holdBtn');
-        const btnFill = document.getElementById('btnFill');
-        const bgMusic = document.getElementById('bgMusic');
-        let pressTimer;
-        let isPressed = false;
+/* ★ القلوب */
+function createHeart() {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.fontSize = (Math.random()*20+15)+"px";
+    heart.style.animationDuration = (Math.random()*3+5)+"s";
+    document.getElementById("heartsArea").appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart, 1100);
 
-        function startPress(e) {
-            if (e.type === 'mousedown' && e.button !== 0) return; 
-            e.preventDefault();
-            isPressed = true;
-            btnFill.style.transition = 'width 3s ease-in-out';
-            btnFill.style.width = '100%';
-            
-            bgMusic.volume = 0;
-            bgMusic.play().then(() => {
-                console.log("Audio prepared");
-            }).catch(e => console.log("Audio prep blocked"));
+/* ★ زر الضغط المطول */
+const holdBtn = document.getElementById("holdBtn");
+const btnFill = document.getElementById("btnFill");
 
-            pressTimer = setTimeout(() => {
-                if(isPressed) unlockHeart();
-            }, 3000);
-        }
+let pressing = false;
+let pressTimer;
 
-        function cancelPress() {
-            if(!isPressed) return;
-            isPressed = false;
-            clearTimeout(pressTimer);
-            btnFill.style.transition = 'width 0.2s linear';
-            btnFill.style.width = '0%';
-        }
+function startPress(e) {
+    e.preventDefault();
+    pressing = true;
+    btnFill.style.transition = "width 3s linear";
+    btnFill.style.width = "100%";
 
-        holdBtn.addEventListener('mousedown', startPress);
-        holdBtn.addEventListener('mouseup', cancelPress);
-        holdBtn.addEventListener('mouseleave', cancelPress);
-        holdBtn.addEventListener('touchstart', startPress, {passive: false});
-        holdBtn.addEventListener('touchend', cancelPress);
-        holdBtn.addEventListener('touchcancel', cancelPress);
+    bgMusic.play().catch(()=>{});
 
-        function unlockHeart() {
-            bgMusic.volume = 1;
-            bgMusic.play().catch(e => console.log("Audio retry needed"));
+    pressTimer = setTimeout(() => {
+        if (pressing) unlockHeart();
+    }, 3000);
+}
 
-            document.getElementById('introScreen').style.opacity = 0;
-            setTimeout(() => {
-                document.getElementById('introScreen').classList.add('hidden');
-                document.getElementById('storyScreen').classList.remove('hidden');
-                document.getElementById('storyScreen').style.opacity = 1;
-                playStory();
-            }, 500);
-        }
+function stopPress() {
+    pressing = false;
+    clearTimeout(pressTimer);
+    btnFill.style.transition = "width 0.2s";
+    btnFill.style.width = "0%";
+}
 
-        // الرسائل والصفحات المتعددة (تمت زيادة الرسائل)
-        const storyLines = [
-            { text: "يا هلا بـ عسولتي اللي مسافتها عن عيني بعيدة.. بس عن قلبي ولا سانتي.", btn: "أسمعك يا قلبي 🤍" },
-            { text: "تدرين إني إذا طالعت بالسماء بالليل.. أتذكر إننا تحت نفس السماء، وهذا بروحه يطمني.", btn: "يا عمري أنت ✨" },
-            { text: "أدري البعد أحياناً يتعبنا.. بس والله إنك تسوين هالكون كله وما فيه، وتستاهلين كل لحظة صبر.", btn: "وأنت تسوى دنيتي 🥺" },
-            { text: "أنتي مو بس حبيبتي.. أنتي عائلتي، وملاذي، وأجمل عطايا ربي لي.", btn: "يا حظي فيك 💖" },
-            { text: "تخيلت يومنا؟ تخيلتك وأنتي لابسة فستانك الأبيض وضحكتك اللي بتنور حياتي كلها..", btn: "إن شاء الله يجي هاليوم 💍" },
-            { text: "مهما زعلنا أو اختلفنا.. مستحيل يمر يوم بدون ما أقول إنك أعظم انتصاراتي.", btn: "أحبك يا عبدالله 🫂" },
-            { text: "أوعدك بيجي اليوم اللي أمسك فيه يدك.. وما عاد أتركها أبداً.", btn: "أمين يا رب 🤍" },
-            { text: "عبدالله ورغد.. معاً، للأبد إن شاء الله 💖", btn: "للأبد يا روحي 🥰" } 
-        ];
+holdBtn.addEventListener("mousedown", startPress);
+holdBtn.addEventListener("mouseup", stopPress);
+holdBtn.addEventListener("mouseleave", stopPress);
+holdBtn.addEventListener("touchstart", startPress, {passive:false});
+holdBtn.addEventListener("touchend", stopPress);
 
-        let currentLine = 0;
-        const storyTextEl = document.getElementById('storyText');
-        const buttonsArea = document.getElementById('buttonsArea');
-        let typeInterval;
+/* ★ فتح القصة */
+function unlockHeart() {
+    if (navigator.vibrate) navigator.vibrate(120);
 
-        function typeWriter(text, i, cb) {
-            if (i < text.length) {
-                storyTextEl.innerHTML += text.charAt(i);
-                typeInterval = setTimeout(() => typeWriter(text, i + 1, cb), 50); 
-            } else {
-                cb();
-            }
-        }
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("storyScreen").classList.remove("hidden");
+    playStory();
+}
 
-        function playStory() {
-            if (currentLine < storyLines.length) {
-                clearTimeout(typeInterval);
-                storyTextEl.innerHTML = '';
-                buttonsArea.innerHTML = '';
-                storyTextEl.classList.add('typing-cursor');
-                storyTextEl.style.opacity = 1;
+/* ★ نصوص القصة */
+const storyLines = [
+    { text: "يا هلا بـ عسولتي اللي مسافتها عن عيني بعيدة.. بس عن قلبي ولا سانتي.", btn: "أسمعك يا قلبي 🤍" },
+    { text: "تدرين إني إذا طالعت بالسماء بالليل.. أتذكر إننا تحت نفس السماء، وهذا يطمني.", btn: "يا عمري أنت ✨" },
+    { text: "أدري البعد يتعب.. بس والله إنك تسوين هالكون كله وما فيه، وتستاهلين كل لحظة صبر.", btn: "وأنت تسوى دنيتي 🥺" },
+    { text: "أنتي مو بس حبيبتي.. أنتي عائلتي، وملاذي، وأجمل عطايا ربي لي.", btn: "يا حظي فيك 💖" },
+    { text: "تخيلتك بفستانك الأبيض.. ضحكتك تنور حياتي كلها.", btn: "إن شاء الله يجي هاليوم 💍" },
+    { text: "مهما اختلفنا.. مستحيل يمر يوم بدون ما أقول إنك أعظم انتصاراتي.", btn: "أحبك يا عبدالله 🫂" },
+    { text: "أوعدك بيجي اليوم اللي أمسك فيه يدك.. وما أتركها.", btn: "أمين يا رب 🤍" },
+    { text: "عبدالله ورغد.. للأبد 💖", btn: "للأبد يا روحي 🥰" }
+];
 
-                const line = storyLines[currentLine];
-                
-                typeWriter(line.text, 0, () => {
-                    storyTextEl.classList.remove('typing-cursor');
-                    const btn = document.createElement('button');
-                    btn.className = 'btn';
-                    btn.innerText = line.btn;
-                    btn.onclick = () => { 
-                        if (bgMusic.paused) {
-                            bgMusic.volume = 1;
-                            bgMusic.play().catch(() => {});
-                        }
-                        currentLine++; 
-                        playStory(); 
-                    };
-                    buttonsArea.appendChild(btn);
-                });
-            } else {
-                showFinale();
-            }
-        }
+let currentLine = 0;
+const storyTextEl = document.getElementById("storyText");
+const buttonsArea = document.getElementById("buttonsArea");
 
-        function showFinale() {
-            document.getElementById('storyScreen').style.opacity = 0;
-            setTimeout(() => {
-                document.getElementById('storyScreen').classList.add('hidden');
-                document.getElementById('finaleScreen').classList.remove('hidden');
-                document.getElementById('finaleScreen').style.opacity = 1;
-                document.getElementById('countdownBox').style.display = 'block';
-                startCountdown();
-            }, 500);
-        }
+function typeWriter(text, i, complete) {
+    if (i < text.length) {
+        storyTextEl.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(text, i+1, complete), 45);
+    } else complete();
+}
 
-        // أسباب الحب (تمت إضافة أسباب كثيرة وعميقة)
-        const reasons = [
-            "عشان ضحكتك اللي تنسيني كل همومي 🤍",
-            "عشان وقفتك معي وقت ضيقتي وتعبّي",
-            "عشانك دنيتي وعسولتي اللي ما أبدلها بالكون",
-            "عشان حنيتك اللي تغنيني عن كل الناس",
-            "عشان عيونك اللي أضيع فيها وأنسى نفسي",
-            "عشانك تتحملين عشاني وتصبرين على هالمسافات 🥺",
-            "عشان صوتك اللي يرد لي روحي من أول كلمة",
-            "عشانك تفهميني من نظرة ومن نبرة صوتي بدون ما أتكلم",
-            "عشان مجرد التفكير فيك يخليني أبتسم لا شعورياً ✨",
-            "عشانك الطمأنينة والأمان وسط كل هالزحمة اللي بالعالم",
-            "لأنك أرق وأحن وأجمل إنسانة عرفتها بحياتي كلها",
-            "عشان كلامك اللي يداوي جروحي ويطمن قلبي 🫂",
-            "لأنك الوحيدة اللي قدرت تملك قلبي بالكامل وتتربع فيه",
-            "لأن الحياة بدونك مالها أي طعم ولا لون.. أنتي الحياة 💖",
-            "عشان كل تفصيل صغير فيك يخليني أحبك أكثر وأكثر",
-            "عشان قلبي اختارك أنتي من بين كل هالناس ورفض غيرك",
-            "لأنك النور اللي أضاء حياتي من جديد ✨"
-        ];
+function playStory() {
+    if (currentLine >= storyLines.length) return showFinale();
+
+    storyTextEl.innerHTML = "";
+    buttonsArea.innerHTML = "";
+    storyTextEl.classList.add("typing-cursor");
+
+    let line = storyLines[currentLine];
+
+    typeWriter(line.text, 0, () => {
+        storyTextEl.classList.remove("typing-cursor");
         
-        function generateReason() {
-            const reasonBox = document.getElementById('reasonText');
-            reasonBox.style.opacity = 0;
-            const random = Math.floor(Math.random() * reasons.length);
-            reasonBox.innerText = '"' + reasons[random] + '"';
-            
-            setTimeout(() => { reasonBox.style.opacity = 1; }, 100);
-            
-            document.getElementById('reasonBtn').style.transform = 'scale(0.9)';
-            setTimeout(() => document.getElementById('reasonBtn').style.transform = 'scale(1)', 100);
+        let btn = document.createElement("button");
+        btn.className = "btn";
+        btn.innerText = line.btn;
+
+        btn.onclick = () => {
+            bgMusic.play().catch(()=>{});
+            currentLine++;
+            playStory();
+        };
+
+        buttonsArea.appendChild(btn);
+    });
+}
+
+/* ★ شاشة النهاية */
+function showFinale() {
+    document.getElementById("storyScreen").classList.add("hidden");
+    document.getElementById("finaleScreen").classList.remove("hidden");
+    startCountdown();
+}
+
+/* ★ ليش أحبك؟ */
+const reasons = [
+    "ضحكتك تشيل الهم من قلبي.",
+    "عشانك تسوين الكون كله وما فيه.",
+    "عيونك لها مكان خاص بقلبي.",
+    "حنانك والله ما لقيته عند أحد.",
+    "تفهميني من دون ما أتكلم.",
+    "صوتك يرجّع لي روحي.",
+    "وجودك أمان وسط هالعالم.",
+    "أحب تفاصيلك الصغيرة قبل الكبيرة.",
+    "أنتي النور اللي أضاء حياتي.",
+];
+
+function generateReason() {
+    const box = document.getElementById("reasonText");
+    box.style.opacity = 0;
+    setTimeout(() => {
+        box.innerText = '"' + reasons[Math.floor(Math.random()*reasons.length)] + '"';
+        box.style.opacity = 1;
+    }, 200);
+}
+
+/* ★ العدّاد */
+function startCountdown() {
+    const target = new Date(2026, 7, 23, 0, 0, 0).getTime();
+    const timerEl = document.getElementById("timer");
+
+    function update() {
+        let now = Date.now();
+        let diff = target - now;
+
+        if (diff <= 0) {
+            timerEl.innerHTML = "جاء اليوم المنتظر! 💖";
+            return;
         }
 
-        function startCountdown() {
-            const targetDate = new Date("August 23, 2026 00:00:00").getTime();
-            const timerEl = document.getElementById('timer');
+        let d = Math.floor(diff / (1000*60*60*24));
+        let h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+        let m = Math.floor((diff%(1000*60*60))/(1000*60));
+        let s = Math.floor((diff%(1000*60))/1000);
 
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
+        timerEl.innerHTML = `${d} يوم | ${h} س | ${m} د | ${s} ث`;
+    }
+    update();
+    setInterval(update, 1000);
+}
+</script>
 
-                if (distance < 0) {
-                    timerEl.innerHTML = "جاء اليوم المنتظر! 💖";
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                timerEl.innerHTML = `${days} يوم | ${hours} س | ${minutes} د | ${seconds} ث`;
-            }
-            updateCountdown(); 
-            setInterval(updateCountdown, 1000);
-        }
-    </script>
 </body>
 </html>
-
