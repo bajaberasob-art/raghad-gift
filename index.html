@@ -16,9 +16,6 @@
 
         body {
             background-color: #0a0a0a; /* خلفية داكنة */
-            /* إذا أردت صورة خلفية، احذف علامتي /* من السطرين القادمين وضع رابط الصورة */
-            /* background-image: url('رابط_الصورة_هنا'); */
-            /* background-size: cover; background-position: center; */
             color: white;
             display: flex;
             justify-content: center;
@@ -28,24 +25,24 @@
             position: relative;
         }
 
-        /* الفقاعات العائمة في الخلفية مثل الفيديو */
-        .bubbles-container {
+        /* حاوية القلوب المتصاعدة */
+        .hearts-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
             pointer-events: none;
         }
-        .bubble {
+        .heart {
             position: absolute;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
+            color: #ff6eb4; /* لون القلوب */
             bottom: -50px;
-            animation: floatup 10s infinite linear;
+            animation: floatup 8s infinite linear;
+            opacity: 0.7;
         }
         @keyframes floatup {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
             50% { opacity: 1; }
-            100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+            100% { transform: translateY(-120vh) scale(1.2) rotate(360deg); opacity: 0; }
         }
 
         /* المحتوى الأساسي */
@@ -59,7 +56,7 @@
             flex-direction: column;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease-in-out; /* انتقال أنعم */
         }
 
         .show { opacity: 1; }
@@ -67,31 +64,35 @@
         .avatar {
             width: 100px;
             height: 100px;
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255,110,180, 0.1);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 50px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            margin-bottom: 25px;
+            box-shadow: 0 0 25px rgba(255, 110, 180, 0.3);
+            border: 2px solid rgba(255, 110, 180, 0.2);
         }
 
         .text-box {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             line-height: 1.6;
-            margin-bottom: 30px;
-            min-height: 50px;
+            margin-bottom: 35px;
+            min-height: 60px;
+            color: #ffb6c1;
         }
 
         .long-text {
-            font-size: 0.95rem;
+            font-size: 1rem;
             text-align: center;
             line-height: 1.8;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            color: white;
+            border: 1px solid rgba(255,110,180, 0.2);
         }
 
         /* تصميم الأزرار */
@@ -103,20 +104,29 @@
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 10px 25px;
+            background: linear-gradient(45deg, #ff6eb4, #ffb6c1);
+            border: none;
+            color: #2b0a18;
+            padding: 12px 30px;
             border-radius: 30px;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
-            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(255, 110, 180, 0.4);
             transition: all 0.3s ease;
         }
 
         .btn:hover, .btn:active {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 110, 180, 0.6);
+        }
+
+        /* زر البدء مختلف قليلاً */
+        #startBtn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: none;
         }
 
         .hidden { display: none !important; }
@@ -126,34 +136,37 @@
 <body>
 
     <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="bubbles-container" id="bubbles"></div>
+    <div class="hearts-container" id="hearts"></div>
 
     <div class="content show" id="mainContent">
-        <div id="avatarBox" class="avatar hidden">🐻</div>
-        <div id="textBox" class="text-box">اضغطي على الزر لتشغيل الموسيقى 🎵</div>
+        <div id="avatarBox" class="avatar hidden">🤍</div>
+        <div id="textBox" class="text-box">رغد، شغلي الموسيقى واسمعي دقات قلبي 🎵</div>
         
         <div id="btnBox" class="buttons-container">
-            <button class="btn" onclick="startApp()">تشغيل الموسيقى</button>
+            <button class="btn" id="startBtn" onclick="startApp()">تشغيل الموسيقى 🎧</button>
         </div>
     </div>
 
     <script>
-        // إنشاء الفقاعات العائمة
-        const bubblesContainer = document.getElementById('bubbles');
-        for (let i = 0; i < 15; i++) {
-            let bubble = document.createElement('div');
-            bubble.classList.add('bubble');
-            let size = Math.random() * 40 + 10;
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-            bubble.style.left = Math.random() * 100 + 'vw';
-            bubble.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            bubble.style.animationDelay = Math.random() * 5 + 's';
-            bubblesContainer.appendChild(bubble);
+        // إنشاء القلوب المتصاعدة تلقائياً
+        const heartsContainer = document.getElementById('hearts');
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = "❤";
+                let size = Math.random() * 30 + 10;
+                heart.style.fontSize = size + 'px';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heartsContainer.appendChild(heart);
+            }
         }
+        createHearts(); // إنشاء قلوب في البداية
 
         const contentDiv = document.getElementById('mainContent');
         const textBox = document.getElementById('textBox');
@@ -161,17 +174,17 @@
         const avatarBox = document.getElementById('avatarBox');
         const bgMusic = document.getElementById('bgMusic');
 
-        // الخطوات والنصوص
+        // الخطوات والنصوص الجديدة الرومنسية أكثر
         const steps = [
-            { type: 'auto', text: "وينها دنيتي؟ 🤍", time: 2500, avatar: '🐻' },
-            { type: 'auto', text: "هلووو عسولتي 🥺", time: 2500, avatar: '🐻' },
-            { type: 'button', text: "عندي رسالة لك 💌", avatar: '🐻', btns: [{ text: "وش هي؟", next: 4 }] },
-            { type: 'button', class: 'long-text', text: "يمكن زعلتك، ويمكن خفت أقول اللي بقلبي بدون ما أحسب حساب ضيقتك، بس اليوم ما أقدر أخبي أكثر.. أنتي مو شخص عادي بحياتي.. من يوم عرفتك وأنتي رجعتي لي حياتي والابتسامة ما فارقتني.. أحبك وبعوضك عن كل لحظة زعل 🤍", avatar: '🐻', btns: [{ text: "التالي", next: 5 }] },
-            { type: 'button', text: "تحبيني؟ 🥺", avatar: '🐻', btns: [{ text: "أي 🤍", next: 6 }, { text: "لازم أي 🤎", next: 6 }] },
-            { type: 'button', text: "وأنا أحبك أكثر ❤️", avatar: '🐻', btns: [{ text: "حبيبي 🥺", next: 7 }] },
-            { type: 'button', text: "بس أنا أكثرررر 😍", avatar: '🐻', btns: [{ text: "أحبك 🤍", next: 8 }] },
-            { type: 'auto', text: "أحببببببببك موتتتت 🥺", time: 2500, avatar: '🐻' },
-            { type: 'button', text: "أحبج كد الكون 1000000% 💖", avatar: '🐻', btns: [] }
+            { type: 'auto', text: "تدرين المسافات مهما بعدت؟ ✨", time: 3000, avatar: '🤍' },
+            { type: 'auto', text: "بتبقين أنتي عسولتي.. وأقرب شيء لقلبي 🥺", time: 3000, avatar: '🤍' },
+            { type: 'button', text: "يا دنيتي كلها.."، avatar: '🤍', btns: [{ text: "نعم؟ 💖", next: 4 }] },
+            { type: 'button', class: 'long-text', text: "أدري البعد يتعب، وأدري إنك محتاجة تكوني جنبي.. وأنا محتاجك أكثر مما تتخيلي.. بس أوعدك، هذي المسافات بتنطوي، وبيجي اليوم اللي أمسك يدك وما أتركها أبداً.. أنتي أملي، ومستقبلي، وكل شيء حلو بهالدنيا 💖", avatar: '🐻', btns: [{ text: "التالي 🥰", next: 5 }] },
+            { type: 'auto', text: "تخيلت يومنا؟ 🤔", time: 2500, avatar: '🤍' },
+            { type: 'button', text: "أنتي لابسة فستانك الأبيض.. وأنا أسعد إنسان بالكون 😍", avatar: '🐼', btns: [{ text: "ان شاء الله 🤍", next: 6 }] },
+            { type: 'button', text: "تحبيني كثر ما أحبك؟ ✨", avatar: '🤍', btns: [{ text: "أي / أكيد", next: 7 }] },
+            { type: 'auto', text: "أنا أحبك لآخر نفس 🥺", time: 3000, avatar: '🤍' },
+            { type: 'button', text: "إلى الأبد.. 🫂💖", avatar: '🤍', btns: [] }
         ];
 
         let currentStep = 0;
@@ -188,7 +201,7 @@
             setTimeout(() => {
                 callback();
                 contentDiv.classList.add('show');
-            }, 500); // سرعة الاختفاء والظهور
+            }, 800); // سرعة الانتقال بين النصوص
         }
 
         function goToStep(index) {
@@ -197,25 +210,17 @@
             const step = steps[index];
 
             fadeTransition(() => {
-                // تحديث الصورة الرمزية
-                avatarBox.innerHTML = step.avatar || '🐻';
-                
-                // تحديث النص
+                avatarBox.innerHTML = step.avatar || '🤍';
                 textBox.innerHTML = step.text;
                 if (step.class) {
                     textBox.className = 'text-box ' + step.class;
                 } else {
                     textBox.className = 'text-box';
                 }
-
-                // مسح الأزرار القديمة
                 btnBox.innerHTML = '';
-
                 if (step.type === 'auto') {
-                    // الانتقال التلقائي
                     setTimeout(() => goToStep(index + 1), step.time);
                 } else if (step.type === 'button') {
-                    // إنشاء الأزرار
                     if (step.btns && step.btns.length > 0) {
                         step.btns.forEach(b => {
                             let btn = document.createElement('button');
