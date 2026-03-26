@@ -15,7 +15,7 @@
         }
 
         body {
-            background-color: #0a0a0a; /* خلفية داكنة */
+            background-color: #0a0a0a;
             color: white;
             display: flex;
             justify-content: center;
@@ -34,18 +34,17 @@
         }
         .heart {
             position: absolute;
-            color: #ff6eb4; /* لون القلوب */
+            color: #ff6eb4;
             bottom: -50px;
-            animation: floatup 8s infinite linear;
-            opacity: 0.7;
+            animation: floatup 6s infinite linear;
+            opacity: 0;
         }
         @keyframes floatup {
             0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
+            20% { opacity: 0.8; }
             100% { transform: translateY(-120vh) scale(1.2) rotate(360deg); opacity: 0; }
         }
 
-        /* المحتوى الأساسي */
         .content {
             position: relative;
             z-index: 10;
@@ -56,7 +55,7 @@
             flex-direction: column;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.8s ease-in-out; /* انتقال أنعم */
+            transition: opacity 0.6s ease-in-out;
         }
 
         .show { opacity: 1; }
@@ -79,35 +78,24 @@
             font-size: 1.3rem;
             line-height: 1.6;
             margin-bottom: 35px;
-            min-height: 60px;
+            min-height: 80px;
             color: #ffb6c1;
         }
 
         .long-text {
             font-size: 1rem;
-            text-align: center;
             line-height: 1.8;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
             border-radius: 20px;
-            margin-bottom: 25px;
-            color: white;
-            border: 1px solid rgba(255,110,180, 0.2);
-        }
-
-        /* تصميم الأزرار */
-        .buttons-container {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
+            border: 1px solid rgba(255, 110, 180, 0.2);
         }
 
         .btn {
             background: linear-gradient(45deg, #ff6eb4, #ffb6c1);
             border: none;
             color: #2b0a18;
-            padding: 12px 30px;
+            padding: 12px 35px;
             border-radius: 30px;
             font-size: 1.1rem;
             font-weight: bold;
@@ -116,21 +104,9 @@
             transition: all 0.3s ease;
         }
 
-        .btn:hover, .btn:active {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 110, 180, 0.6);
-        }
-
-        /* زر البدء مختلف قليلاً */
-        #startBtn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: none;
-        }
+        .btn:active { transform: scale(0.95); }
 
         .hidden { display: none !important; }
-
     </style>
 </head>
 <body>
@@ -144,29 +120,24 @@
     <div class="content show" id="mainContent">
         <div id="avatarBox" class="avatar hidden">🤍</div>
         <div id="textBox" class="text-box">رغد، شغلي الموسيقى واسمعي دقات قلبي 🎵</div>
-        
-        <div id="btnBox" class="buttons-container">
-            <button class="btn" id="startBtn" onclick="startApp()">تشغيل الموسيقى 🎧</button>
+        <div id="btnBox">
+            <button class="btn" onclick="startApp()">تشغيل الموسيقى 🎧</button>
         </div>
     </div>
 
     <script>
-        // إنشاء القلوب المتصاعدة تلقائياً
-        const heartsContainer = document.getElementById('hearts');
-        function createHearts() {
-            for (let i = 0; i < 20; i++) {
-                let heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = "❤";
-                let size = Math.random() * 30 + 10;
-                heart.style.fontSize = size + 'px';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                heart.style.animationDelay = Math.random() * 5 + 's';
-                heartsContainer.appendChild(heart);
-            }
+        // دالة إنشاء القلوب
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = "❤";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+            heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+            document.getElementById('hearts').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
         }
-        createHearts(); // إنشاء قلوب في البداية
+        setInterval(createHeart, 400);
 
         const contentDiv = document.getElementById('mainContent');
         const textBox = document.getElementById('textBox');
@@ -174,64 +145,55 @@
         const avatarBox = document.getElementById('avatarBox');
         const bgMusic = document.getElementById('bgMusic');
 
-        // الخطوات والنصوص الجديدة الرومنسية أكثر
         const steps = [
-            { type: 'auto', text: "تدرين المسافات مهما بعدت؟ ✨", time: 3000, avatar: '🤍' },
-            { type: 'auto', text: "بتبقين أنتي عسولتي.. وأقرب شيء لقلبي 🥺", time: 3000, avatar: '🤍' },
-            { type: 'button', text: "يا دنيتي كلها.."، avatar: '🤍', btns: [{ text: "نعم؟ 💖", next: 4 }] },
-            { type: 'button', class: 'long-text', text: "أدري البعد يتعب، وأدري إنك محتاجة تكوني جنبي.. وأنا محتاجك أكثر مما تتخيلي.. بس أوعدك، هذي المسافات بتنطوي، وبيجي اليوم اللي أمسك يدك وما أتركها أبداً.. أنتي أملي، ومستقبلي، وكل شيء حلو بهالدنيا 💖", avatar: '🐻', btns: [{ text: "التالي 🥰", next: 5 }] },
-            { type: 'auto', text: "تخيلت يومنا؟ 🤔", time: 2500, avatar: '🤍' },
-            { type: 'button', text: "أنتي لابسة فستانك الأبيض.. وأنا أسعد إنسان بالكون 😍", avatar: '🐼', btns: [{ text: "ان شاء الله 🤍", next: 6 }] },
-            { type: 'button', text: "تحبيني كثر ما أحبك؟ ✨", avatar: '🤍', btns: [{ text: "أي / أكيد", next: 7 }] },
-            { type: 'auto', text: "أنا أحبك لآخر نفس 🥺", time: 3000, avatar: '🤍' },
-            { type: 'button', text: "إلى الأبد.. 🫂💖", avatar: '🤍', btns: [] }
+            { type: 'auto', text: "تدرين المسافات مهما بعدت؟ ✨", time: 3500, avatar: '✨' },
+            { type: 'auto', text: "بتبقين أنتي عسولتي.. وأقرب شيء لقلبي 🥺", time: 3500, avatar: '🤍' },
+            { type: 'button', text: "يا دنيتي كلها..", avatar: '💖', btns: [{ text: "نعم؟ 🥰", next: 4 }] },
+            { type: 'button', isLong: true, text: "أدري البعد يتعب، وأدري إنك محتاجة تكوني جنبي.. وأنا محتاجك أكثر مما تتخيلي.. بس أوعدك، هذي المسافات بتنطوي، وبيجي اليوم اللي أمسك يدك وما أتركها أبداً.. أنتي أملي، ومستقبلي، وكل شيء حلو بهالدنيا 🫂💖", avatar: '🐻', btns: [{ text: "التالي 💌", next: 5 }] },
+            { type: 'auto', text: "تخيلتِ يومنا؟ 🤔", time: 3000, avatar: '💍' },
+            { type: 'button', text: "أنتي لابسة فستانك الأبيض.. وأنا أسعد إنسان بالكون 😍", avatar: '🐼', btns: [{ text: "إن شاء الله 🤍", next: 7 }] },
+            { type: 'button', text: "تحبيني كثر ما أحبك؟ ✨", avatar: '❓', btns: [{ text: "أكييييد 💖", next: 8 }] },
+            { type: 'auto', text: "وأنا أحبك لآخر نفس فيني.. 🥺", time: 4000, avatar: '♾️' },
+            { type: 'auto', text: "إلى الأبد يا رغد.. 🫂💖", avatar: '🫂', time: 5000 }
         ];
 
-        let currentStep = 0;
-
         function startApp() {
-            // تشغيل الموسيقى
-            bgMusic.play().catch(e => console.log("المتصفح منع التشغيل التلقائي"));
+            bgMusic.play().catch(() => console.log("Audio blocked"));
+            btnBox.classList.add('hidden'); // إخفاء الزر فوراً
             avatarBox.classList.remove('hidden');
-            goToStep(1);
-        }
-
-        function fadeTransition(callback) {
-            contentDiv.classList.remove('show');
-            setTimeout(() => {
-                callback();
-                contentDiv.classList.add('show');
-            }, 800); // سرعة الانتقال بين النصوص
+            goToStep(0); // البدء من أول خطوة
         }
 
         function goToStep(index) {
             if (index >= steps.length) return;
-            currentStep = index;
             const step = steps[index];
 
-            fadeTransition(() => {
-                avatarBox.innerHTML = step.avatar || '🤍';
+            contentDiv.classList.remove('show');
+            
+            setTimeout(() => {
                 textBox.innerHTML = step.text;
-                if (step.class) {
-                    textBox.className = 'text-box ' + step.class;
-                } else {
-                    textBox.className = 'text-box';
-                }
+                avatarBox.innerHTML = step.avatar;
+                
+                if (step.isLong) textBox.classList.add('long-text');
+                else textBox.classList.remove('long-text');
+
                 btnBox.innerHTML = '';
-                if (step.type === 'auto') {
+                if (step.type === 'button') {
+                    step.btns.forEach(b => {
+                        const bNode = document.createElement('button');
+                        bNode.className = 'btn';
+                        bNode.innerText = b.text;
+                        bNode.onclick = () => goToStep(b.next - 1);
+                        btnBox.appendChild(bNode);
+                    });
+                    btnBox.classList.remove('hidden');
+                } else {
+                    btnBox.classList.add('hidden');
                     setTimeout(() => goToStep(index + 1), step.time);
-                } else if (step.type === 'button') {
-                    if (step.btns && step.btns.length > 0) {
-                        step.btns.forEach(b => {
-                            let btn = document.createElement('button');
-                            btn.className = 'btn';
-                            btn.innerText = b.text;
-                            btn.onclick = () => goToStep(b.next - 1); // الاندكس يبدأ من 0
-                            btnBox.appendChild(btn);
-                        });
-                    }
                 }
-            });
+
+                contentDiv.classList.add('show');
+            }, 600);
         }
     </script>
 </body>
