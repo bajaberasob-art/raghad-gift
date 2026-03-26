@@ -8,19 +8,16 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; user-select: none; -webkit-tap-highlight-color: transparent; }
 
-        /* ثيم السماء الليلية العميقة */
         body {
             background: linear-gradient(to bottom, #020111 0%, #1a1a3a 100%);
             color: white; display: flex; justify-content: center; align-items: center;
             min-height: 100vh; overflow: hidden; position: relative;
         }
 
-        /* حاوية النجوم */
         .stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .star { position: absolute; background: white; border-radius: 50%; animation: twinkle infinite alternate; }
         @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 5px #fff; } }
 
-        /* القلوب المتصاعدة الرومانسية */
         .heart {
             position: absolute; color: #ff6eb4; bottom: -50px;
             animation: floatUp 6s infinite linear; opacity: 0; z-index: 1;
@@ -33,21 +30,18 @@
 
         .container { z-index: 10; width: 90%; max-width: 450px; text-align: center; display: flex; flex-direction: column; align-items: center; }
 
-        /* زر الضغط المطول المحسن */
         .hold-btn-container { position: relative; width: 220px; height: 60px; margin: 20px auto; border-radius: 30px; overflow: hidden; background: rgba(255, 255, 255, 0.05); border: 2px solid #ffb6c1; cursor: pointer; transition: 0.3s; }
         .hold-btn-container:active { transform: scale(0.98); }
         .hold-btn-fill { position: absolute; top: 0; right: 0; height: 100%; width: 0%; background: linear-gradient(45deg, #ff6eb4, #ffb6c1); z-index: 1; transition: width 0.1s linear; }
         .hold-btn-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 1.1rem; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
 
-        /* النصوص وتأثير الكتابة */
         .story-text { font-size: 1.5rem; line-height: 1.8; margin-bottom: 30px; min-height: 120px; color: #ffb6c1; text-shadow: 0 0 10px rgba(255, 182, 193, 0.3); transition: opacity 0.5s; }
         .typing-cursor::after { content: '|'; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* تصميم حروف النهاية الفخم (a & r lowercase) */
         .final-initials {
             font-size: 4rem; font-weight: 500; color: #ff6eb4; margin: 0 auto 30px auto;
-            letter-spacing: 5px; text-transform: lowercase; /* ضمان ظهورها lowercase */
+            letter-spacing: 5px; text-transform: lowercase; 
             text-shadow: 0 0 15px rgba(255, 110, 180, 0.7), 0 0 5px #fff;
             animation: slowPulse 3s infinite ease-in-out;
             display: inline-block;
@@ -60,13 +54,15 @@
         .btn { background: rgba(255,255,255,0.05); border: 1px solid #ffb6c1; color: white; padding: 12px 35px; border-radius: 50px; font-size: 1.2rem; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; margin: 10px; }
         .btn:active { transform: scale(0.95); background: rgba(255,182,193,0.3); }
 
-        /* العداد التنازلي */
         .countdown-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 15px; padding: 15px; margin-top: 20px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .cd-title { color: #ffb6c1; font-size: 1rem; margin-bottom: 10px; }
         .cd-timer { font-size: 1.5rem; font-weight: bold; letter-spacing: 2px; color: #fff; }
 
-        /* زر ليش أحبك */
-        .reason-box { margin-top: 20px; min-height: 60px; color: #fff9c4; font-size: 1.2rem; font-style: italic; text-shadow: 0 0 5px #ffeb3b; opacity: 0; transition: 0.5s; }
+        .reason-box { margin-top: 20px; min-height: 80px; color: #fff9c4; font-size: 1.2rem; font-style: italic; text-shadow: 0 0 5px #ffeb3b; opacity: 0; transition: 0.5s; }
+
+        /* تصميم زر الانستجرام */
+        .insta-btn { background: rgba(225, 48, 108, 0.1); border-color: #e1306c; color: #ffb6c1; margin-top: 30px; }
+        .insta-btn:active { background: rgba(225, 48, 108, 0.3); }
 
         .hidden { display: none !important; }
     </style>
@@ -75,7 +71,8 @@
 
     <audio id="bgMusic" loop>
         <source src="blue.mp3" type="audio/mpeg">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg"> </audio>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg"> 
+    </audio>
 
     <div class="stars" id="starsArea"></div>
     <div id="heartsArea"></div>
@@ -107,12 +104,16 @@
                 <div class="cd-timer" id="timer">00:00:00:00</div>
             </div>
 
-            <div id="telegramBoxPlaceholder" style="margin-top: 30px;"></div>
+            <div>
+                <p style="color: #aaa; font-size: 0.9rem; margin-top: 30px; margin-bottom: 10px;">عبرّي عن شعورك..</p>
+                <a href="https://instagram.com/a1_sob" target="_blank" style="text-decoration: none;">
+                    <button class="btn insta-btn">اكتبي لي رسالة 💌</button>
+                </a>
+            </div>
         </div>
     </div>
 
     <script>
-        // توليد النجوم
         const starsArea = document.getElementById('starsArea');
         for(let i=0; i<60; i++) {
             let star = document.createElement('div');
@@ -125,7 +126,6 @@
             starsArea.appendChild(star);
         }
 
-        // دالة القلوب المستمرة
         function createHeart() {
             const container = document.getElementById('heartsArea');
             const heart = document.createElement('div');
@@ -137,9 +137,8 @@
             container.appendChild(heart);
             setTimeout(() => heart.remove(), 6000);
         }
-        setInterval(createHeart, 500); // توليد قلب كل نصف ثانية
+        setInterval(createHeart, 500); 
 
-        // برمجة الضغط المطول
         const holdBtn = document.getElementById('holdBtn');
         const btnFill = document.getElementById('btnFill');
         const bgMusic = document.getElementById('bgMusic');
@@ -153,11 +152,10 @@
             btnFill.style.transition = 'width 3s ease-in-out';
             btnFill.style.width = '100%';
             
-            // محاولة أولية لتشغيل الموسيقى (بصوت صامت) لتهيئة المتصفح
             bgMusic.volume = 0;
             bgMusic.play().then(() => {
                 console.log("Audio prepared");
-            }).catch(e => console.log("Audio block prepare failed"));
+            }).catch(e => console.log("Audio prep blocked"));
 
             pressTimer = setTimeout(() => {
                 if(isPressed) unlockHeart();
@@ -179,11 +177,9 @@
         holdBtn.addEventListener('touchend', cancelPress);
         holdBtn.addEventListener('touchcancel', cancelPress);
 
-        // بدء القصة
         function unlockHeart() {
-            // تشغيل الموسيقى الحقيقي فور انتهاء الضغط المطول وبأقصى صوت
             bgMusic.volume = 1;
-            bgMusic.play().catch(e => console.log("Audio block failed at unlock, retry on story buttons"));
+            bgMusic.play().catch(e => console.log("Audio retry needed"));
 
             document.getElementById('introScreen').style.opacity = 0;
             setTimeout(() => {
@@ -194,12 +190,16 @@
             }, 500);
         }
 
-        // نصوص القصة وتأثير الكتابة
+        // الرسائل والصفحات المتعددة (تمت زيادة الرسائل)
         const storyLines = [
             { text: "يا هلا بـ عسولتي اللي مسافتها عن عيني بعيدة.. بس عن قلبي ولا سانتي.", btn: "أسمعك يا قلبي 🤍" },
             { text: "تدرين إني إذا طالعت بالسماء بالليل.. أتذكر إننا تحت نفس السماء، وهذا بروحه يطمني.", btn: "يا عمري أنت ✨" },
-            { text: "أوعدك بيجي اليوم اللي أمسك فيه يدك.. وما عاد أتركها أبداً.", btn: "أمين يا رب 🫂" },
-            { text: "عبدالله ورغد.. معاً، للأبد إن شاء الله 💖", btn: "للأبد يا روحي 🥰" } // الخطوة التمهيدية قبل حروف النهاية
+            { text: "أدري البعد أحياناً يتعبنا.. بس والله إنك تسوين هالكون كله وما فيه، وتستاهلين كل لحظة صبر.", btn: "وأنت تسوى دنيتي 🥺" },
+            { text: "أنتي مو بس حبيبتي.. أنتي عائلتي، وملاذي، وأجمل عطايا ربي لي.", btn: "يا حظي فيك 💖" },
+            { text: "تخيلت يومنا؟ تخيلتك وأنتي لابسة فستانك الأبيض وضحكتك اللي بتنور حياتي كلها..", btn: "إن شاء الله يجي هاليوم 💍" },
+            { text: "مهما زعلنا أو اختلفنا.. مستحيل يمر يوم بدون ما أقول إنك أعظم انتصاراتي.", btn: "أحبك يا عبدالله 🫂" },
+            { text: "أوعدك بيجي اليوم اللي أمسك فيه يدك.. وما عاد أتركها أبداً.", btn: "أمين يا رب 🤍" },
+            { text: "عبدالله ورغد.. معاً، للأبد إن شاء الله 💖", btn: "للأبد يا روحي 🥰" } 
         ];
 
         let currentLine = 0;
@@ -210,7 +210,7 @@
         function typeWriter(text, i, cb) {
             if (i < text.length) {
                 storyTextEl.innerHTML += text.charAt(i);
-                typeInterval = setTimeout(() => typeWriter(text, i + 1, cb), 50); // سرعة الكتابة
+                typeInterval = setTimeout(() => typeWriter(text, i + 1, cb), 50); 
             } else {
                 cb();
             }
@@ -231,11 +231,10 @@
                     const btn = document.createElement('button');
                     btn.className = 'btn';
                     btn.innerText = line.btn;
-                    // إذا لم تعمل الموسيقى، نحاول تشغيلها مرة أخرى على كل ضغطة زر
                     btn.onclick = () => { 
                         if (bgMusic.paused) {
                             bgMusic.volume = 1;
-                            bgMusic.play().catch(() => console.log("Still blocked, waiting for more interaction"));
+                            bgMusic.play().catch(() => {});
                         }
                         currentLine++; 
                         playStory(); 
@@ -247,7 +246,6 @@
             }
         }
 
-        // شاشة النهاية (a & r lowercase) - تم تبسيطها وإزالة كود الصور
         function showFinale() {
             document.getElementById('storyScreen').style.opacity = 0;
             setTimeout(() => {
@@ -259,16 +257,27 @@
             }, 500);
         }
 
-        // أسباب الحب العشوائية
+        // أسباب الحب (تمت إضافة أسباب كثيرة وعميقة)
         const reasons = [
             "عشان ضحكتك اللي تنسيني كل همومي 🤍",
-            "عشان وقفتك معي وقت ضيقتي",
+            "عشان وقفتك معي وقت ضيقتي وتعبّي",
             "عشانك دنيتي وعسولتي اللي ما أبدلها بالكون",
             "عشان حنيتك اللي تغنيني عن كل الناس",
-            "عشان كل تفصيل صغير فيك يخليني أحبك أكثر",
-            "عشان قلبي اختارك أنتي من بين كل هالناس",
+            "عشان عيونك اللي أضيع فيها وأنسى نفسي",
+            "عشانك تتحملين عشاني وتصبرين على هالمسافات 🥺",
+            "عشان صوتك اللي يرد لي روحي من أول كلمة",
+            "عشانك تفهميني من نظرة ومن نبرة صوتي بدون ما أتكلم",
+            "عشان مجرد التفكير فيك يخليني أبتسم لا شعورياً ✨",
+            "عشانك الطمأنينة والأمان وسط كل هالزحمة اللي بالعالم",
+            "لأنك أرق وأحن وأجمل إنسانة عرفتها بحياتي كلها",
+            "عشان كلامك اللي يداوي جروحي ويطمن قلبي 🫂",
+            "لأنك الوحيدة اللي قدرت تملك قلبي بالكامل وتتربع فيه",
+            "لأن الحياة بدونك مالها أي طعم ولا لون.. أنتي الحياة 💖",
+            "عشان كل تفصيل صغير فيك يخليني أحبك أكثر وأكثر",
+            "عشان قلبي اختارك أنتي من بين كل هالناس ورفض غيرك",
             "لأنك النور اللي أضاء حياتي من جديد ✨"
         ];
+        
         function generateReason() {
             const reasonBox = document.getElementById('reasonText');
             reasonBox.style.opacity = 0;
@@ -281,7 +290,6 @@
             setTimeout(() => document.getElementById('reasonBtn').style.transform = 'scale(1)', 100);
         }
 
-        // العداد التنازلي
         function startCountdown() {
             const targetDate = new Date("August 23, 2026 00:00:00").getTime();
             const timerEl = document.getElementById('timer');
@@ -302,7 +310,7 @@
 
                 timerEl.innerHTML = `${days} يوم | ${hours} س | ${minutes} د | ${seconds} ث`;
             }
-            updateCountdown(); // تحديث فوري
+            updateCountdown(); 
             setInterval(updateCountdown, 1000);
         }
     </script>
