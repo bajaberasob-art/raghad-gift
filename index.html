@@ -4,196 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إلى رغد 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Tajawal', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
-            background-color: #0a0a0a;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
+            margin: 0; background-color: #0a0a0a; color: white;
+            font-family: 'Tajawal', sans-serif; text-align: center;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden; position: relative;
         }
 
-        /* حاوية القلوب المتصاعدة */
-        .hearts-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
+        /* القلوب المتصاعدة */
         .heart {
-            position: absolute;
-            color: #ff6eb4;
-            bottom: -50px;
-            animation: floatup 6s infinite linear;
-            opacity: 0;
+            position: absolute; color: #ff6eb4; bottom: -50px;
+            animation: float 6s infinite linear; opacity: 0;
         }
-        @keyframes floatup {
-            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
             20% { opacity: 0.8; }
-            100% { transform: translateY(-120vh) scale(1.2) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
 
-        .content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-        }
+        .container { z-index: 10; width: 90%; max-width: 400px; }
 
-        .show { opacity: 1; }
-
-        .avatar {
-            width: 100px;
-            height: 100px;
-            background-color: rgba(255,110,180, 0.1);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 50px;
-            margin-bottom: 25px;
-            box-shadow: 0 0 25px rgba(255, 110, 180, 0.3);
-            border: 2px solid rgba(255, 110, 180, 0.2);
-        }
-
-        .text-box {
-            font-size: 1.3rem;
-            line-height: 1.6;
-            margin-bottom: 35px;
-            min-height: 80px;
-            color: #ffb6c1;
-        }
-
-        .long-text {
-            font-size: 1rem;
-            line-height: 1.8;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 110, 180, 0.2);
-        }
-
+        .text-box { font-size: 1.4rem; line-height: 1.6; margin-bottom: 30px; min-height: 100px; color: #ffb6c1; }
+        
         .btn {
-            background: linear-gradient(45deg, #ff6eb4, #ffb6c1);
-            border: none;
-            color: #2b0a18;
-            padding: 12px 35px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
+            background: linear-gradient(45deg, #ff6eb4, #ffb6c1); border: none;
+            color: #2b0a18; padding: 15px 40px; border-radius: 50px;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 110, 180, 0.4);
-            transition: all 0.3s ease;
         }
 
-        .btn:active { transform: scale(0.95); }
-
-        .hidden { display: none !important; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" type="audio/mpeg">
+    <audio id="myMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="hearts-container" id="hearts"></div>
+    <div id="heartsContainer"></div>
 
-    <div class="content show" id="mainContent">
-        <div id="avatarBox" class="avatar hidden">🤍</div>
-        <div id="textBox" class="text-box">رغد، شغلي الموسيقى واسمعي دقات قلبي 🎵</div>
-        <div id="btnBox">
-            <button class="btn" onclick="startApp()">تشغيل الموسيقى 🎧</button>
+    <div class="container">
+        <div id="displayArea">
+            <div class="text-box">رغد، شغلي الموسيقى واسمعي دقات قلبي 🎵</div>
+            <button class="btn" onclick="startStory()">تشغيل الموسيقى 🎧</button>
         </div>
     </div>
 
     <script>
-        // دالة إنشاء القلوب
+        // دالة القلوب
         function createHeart() {
+            const container = document.getElementById('heartsContainer');
             const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = "❤";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.fontSize = (Math.random() * 20 + 15) + "px";
-            heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
-            document.getElementById('hearts').appendChild(heart);
+            heart.className = 'heart';
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            container.appendChild(heart);
             setTimeout(() => heart.remove(), 6000);
         }
-        setInterval(createHeart, 400);
-
-        const contentDiv = document.getElementById('mainContent');
-        const textBox = document.getElementById('textBox');
-        const btnBox = document.getElementById('btnBox');
-        const avatarBox = document.getElementById('avatarBox');
-        const bgMusic = document.getElementById('bgMusic');
+        setInterval(createHeart, 500);
 
         const steps = [
-            { type: 'auto', text: "تدرين المسافات مهما بعدت؟ ✨", time: 3500, avatar: '✨' },
-            { type: 'auto', text: "بتبقين أنتي عسولتي.. وأقرب شيء لقلبي 🥺", time: 3500, avatar: '🤍' },
-            { type: 'button', text: "يا دنيتي كلها..", avatar: '💖', btns: [{ text: "نعم؟ 🥰", next: 4 }] },
-            { type: 'button', isLong: true, text: "أدري البعد يتعب، وأدري إنك محتاجة تكوني جنبي.. وأنا محتاجك أكثر مما تتخيلي.. بس أوعدك، هذي المسافات بتنطوي، وبيجي اليوم اللي أمسك يدك وما أتركها أبداً.. أنتي أملي، ومستقبلي، وكل شيء حلو بهالدنيا 🫂💖", avatar: '🐻', btns: [{ text: "التالي 💌", next: 5 }] },
-            { type: 'auto', text: "تخيلتِ يومنا؟ 🤔", time: 3000, avatar: '💍' },
-            { type: 'button', text: "أنتي لابسة فستانك الأبيض.. وأنا أسعد إنسان بالكون 😍", avatar: '🐼', btns: [{ text: "إن شاء الله 🤍", next: 7 }] },
-            { type: 'button', text: "تحبيني كثر ما أحبك؟ ✨", avatar: '❓', btns: [{ text: "أكييييد 💖", next: 8 }] },
-            { type: 'auto', text: "وأنا أحبك لآخر نفس فيني.. 🥺", time: 4000, avatar: '♾️' },
-            { type: 'auto', text: "إلى الأبد يا رغد.. 🫂💖", avatar: '🫂', time: 5000 }
+            { text: "تدرين المسافات مهما بعدت؟ ✨", type: 'auto' },
+            { text: "بتبقين أنتي عسولتي.. وأقرب شيء لقلبي 🥺", type: 'auto' },
+            { text: "يا دنيتي كلها.. 💖", type: 'button', btnText: "نعم؟ 🥰" },
+            { text: "أدري البعد يتعب، وأدري إنك محتاجة تكوني جنبي.. وأنا محتاجك أكثر مما تتخيلي.. بس أوعدك، هذي المسافات بتنطوي، وبيجي اليوم اللي أمسك يدك وما أتركها أبداً.. أنتي أملي، ومستقبلي، وكل شيء حلو بهالدنيا 🫂💖", type: 'button', btnText: "التالي 💌" },
+            { text: "تحبيني كثر ما أحبك؟ ✨", type: 'button', btnText: "أكييييد 💖" },
+            { text: "وأنا أحبك لآخر نفس فيني.. إلى الأبد يا رغد.. ♾️🫂💖", type: 'final' }
         ];
 
-        function startApp() {
-            bgMusic.play().catch(() => console.log("Audio blocked"));
-            btnBox.classList.add('hidden'); // إخفاء الزر فوراً
-            avatarBox.classList.remove('hidden');
-            goToStep(0); // البدء من أول خطوة
+        let currentStep = 0;
+
+        function startStory() {
+            document.getElementById('myMusic').play();
+            showStep();
         }
 
-        function goToStep(index) {
-            if (index >= steps.length) return;
-            const step = steps[index];
-
-            contentDiv.classList.remove('show');
+        function showStep() {
+            const step = steps[currentStep];
+            const area = document.getElementById('displayArea');
             
-            setTimeout(() => {
-                textBox.innerHTML = step.text;
-                avatarBox.innerHTML = step.avatar;
-                
-                if (step.isLong) textBox.classList.add('long-text');
-                else textBox.classList.remove('long-text');
+            let html = `<div class="text-box">${step.text}</div>`;
+            
+            if (step.type === 'button') {
+                html += `<button class="btn" onclick="nextStep()">${step.btnText}</button>`;
+            }
+            
+            area.innerHTML = html;
 
-                btnBox.innerHTML = '';
-                if (step.type === 'button') {
-                    step.btns.forEach(b => {
-                        const bNode = document.createElement('button');
-                        bNode.className = 'btn';
-                        bNode.innerText = b.text;
-                        bNode.onclick = () => goToStep(b.next - 1);
-                        btnBox.appendChild(bNode);
-                    });
-                    btnBox.classList.remove('hidden');
-                } else {
-                    btnBox.classList.add('hidden');
-                    setTimeout(() => goToStep(index + 1), step.time);
-                }
+            if (step.type === 'auto') {
+                setTimeout(nextStep, 4000);
+            }
+        }
 
-                contentDiv.classList.add('show');
-            }, 600);
+        function nextStep() {
+            currentStep++;
+            if (currentStep < steps.length) {
+                showStep();
+            }
         }
     </script>
 </body>
