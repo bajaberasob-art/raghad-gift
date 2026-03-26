@@ -3,109 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إلى رغد 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>إلى دنيتي رغد 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+
         body {
-            margin: 0; background-color: #0a0a0a; color: white;
-            font-family: 'Tajawal', sans-serif; text-align: center;
+            background-color: #0a0a0a; color: white;
             display: flex; justify-content: center; align-items: center;
             height: 100vh; overflow: hidden; position: relative;
         }
 
-        /* القلوب المتصاعدة */
-        .heart {
-            position: absolute; color: #ff6eb4; bottom: -50px;
-            animation: float 6s infinite linear; opacity: 0;
-        }
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+        /* خلفية القلوب المتصاعدة */
+        .hearts-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .heart { position: absolute; color: #ff6eb4; bottom: -50px; animation: floatUp 6s infinite linear; opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
             20% { opacity: 0.8; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-115vh) rotate(360deg) scale(1.2); opacity: 0; }
         }
 
-        .container { z-index: 10; width: 90%; max-width: 400px; }
+        .container { z-index: 10; width: 90%; max-width: 450px; text-align: center; }
 
-        .text-box { font-size: 1.4rem; line-height: 1.6; margin-bottom: 30px; min-height: 100px; color: #ffb6c1; }
-        
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 110, 180, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .avatar { font-size: 70px; margin-bottom: 20px; text-shadow: 0 0 20px rgba(255, 110, 180, 0.5); }
+
+        .text-box { 
+            font-size: 1.4rem; line-height: 1.7; margin-bottom: 30px; 
+            min-height: 100px; color: #ffb6c1; 
+        }
+
+        .initials { font-size: 3rem; font-weight: 700; color: #ff6eb4; margin: 10px 0; letter-spacing: 5px; }
+
         .btn {
             background: linear-gradient(45deg, #ff6eb4, #ffb6c1); border: none;
-            color: #2b0a18; padding: 15px 40px; border-radius: 50px;
+            color: #2b0a18; padding: 15px 45px; border-radius: 50px;
             font-size: 1.2rem; font-weight: bold; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 110, 180, 0.4);
+            box-shadow: 0 5px 20px rgba(255, 110, 180, 0.4);
+            transition: 0.3s;
         }
+        .btn:active { transform: scale(0.9); }
 
-        .hidden { display: none; }
+        .long-text { font-size: 1.1rem; color: #fff; line-height: 1.8; }
     </style>
 </head>
 <body>
 
-    <audio id="myMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <audio id="loveMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="heartsContainer"></div>
+    <div class="hearts-container" id="heartsArea"></div>
 
     <div class="container">
-        <div id="displayArea">
-            <div class="text-box">رغد، شغلي الموسيقى واسمعي دقات قلبي 🎵</div>
-            <button class="btn" onclick="startStory()">تشغيل الموسيقى 🎧</button>
+        <div id="mainCard" class="card">
+            <div id="icon" class="avatar">🎁</div>
+            <div id="text" class="text-box">رغد، سويت لك شيء بسيط من قلبي.. <br> شغلي الموسيقى وافتحي الهدية 🎵</div>
+            <div id="action">
+                <button class="btn" onclick="startExperience()">فتح الهدية 🎧</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // دالة القلوب
+        // نظام توليد القلوب
         function createHeart() {
-            const container = document.getElementById('heartsContainer');
             const heart = document.createElement('div');
             heart.className = 'heart';
             heart.innerHTML = '❤';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
             heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            container.appendChild(heart);
+            document.getElementById('heartsArea').appendChild(heart);
             setTimeout(() => heart.remove(), 6000);
         }
-        setInterval(createHeart, 500);
+        setInterval(createHeart, 400);
 
-        const steps = [
-            { text: "تدرين المسافات مهما بعدت؟ ✨", type: 'auto' },
-            { text: "بتبقين أنتي عسولتي.. وأقرب شيء لقلبي 🥺", type: 'auto' },
-            { text: "يا دنيتي كلها.. 💖", type: 'button', btnText: "نعم؟ 🥰" },
-            { text: "أدري البعد يتعب، وأدري إنك محتاجة تكوني جنبي.. وأنا محتاجك أكثر مما تتخيلي.. بس أوعدك، هذي المسافات بتنطوي، وبيجي اليوم اللي أمسك يدك وما أتركها أبداً.. أنتي أملي، ومستقبلي، وكل شيء حلو بهالدنيا 🫂💖", type: 'button', btnText: "التالي 💌" },
-            { text: "تحبيني كثر ما أحبك؟ ✨", type: 'button', btnText: "أكييييد 💖" },
-            { text: "وأنا أحبك لآخر نفس فيني.. إلى الأبد يا رغد.. ♾️🫂💖", type: 'final' }
+        // محتوى القصة (الخطوات)
+        const storySteps = [
+            { icon: "✨", text: "يا هلا بـ عسولتي ودنيتي كلها.. رغد.", type: 'auto' },
+            { icon: "🌍", text: "أدري إن المسافات بعيدة.. بس قلبي أقرب لك من أي أحد.", type: 'auto' },
+            { icon: "🫂", text: "يا دنيتي كلها.. تسمعيني؟", type: 'button', btnText: "أسمعك يا قلبي 🥰" },
+            { icon: "💖", text: "أوعدك بيجي اليوم اللي أمسك فيه يدك.. وما عاد أتركها أبداً.. أنتي أملي ومستقبلي.", type: 'button', btnText: "أمين يا رب 🤍" },
+            { icon: "📅", text: "23 أغسطس.. تاريخ ميلاد روحي معك، مستحيل أنساه يا رغد.", type: 'auto' },
+            { icon: "💕", text: "<div class='initials'>A & R</div>عبدالله ورغد.. معاً للأبد.", type: 'button', btnText: "للأبد إن شاء الله 💖" },
+            { icon: "❓", text: "تحبيني كثر ما أنا أحبك؟", type: 'button', btnText: "أكيد / أكثررررر 😍" },
+            { icon: "♾️", text: "أنا أحبك لآخر نفس فيني.. وراح أبقى بجانبك دائماً.. نامي وأنتي متطمنة.", type: 'auto' },
+            { icon: "🫂", text: "أحبك يا رغد.. 💖", type: 'final' }
         ];
 
         let currentStep = 0;
+        const card = document.getElementById('mainCard');
 
-        function startStory() {
-            document.getElementById('myMusic').play();
-            showStep();
+        function startExperience() {
+            document.getElementById('loveMusic').play().catch(() => console.log("Music blocked"));
+            updateUI();
         }
 
-        function showStep() {
-            const step = steps[currentStep];
-            const area = document.getElementById('displayArea');
-            
-            let html = `<div class="text-box">${step.text}</div>`;
-            
-            if (step.type === 'button') {
-                html += `<button class="btn" onclick="nextStep()">${step.btnText}</button>`;
-            }
-            
-            area.innerHTML = html;
+        function updateUI() {
+            const step = storySteps[currentStep];
+            card.style.opacity = 0;
 
-            if (step.type === 'auto') {
-                setTimeout(nextStep, 4000);
-            }
+            setTimeout(() => {
+                document.getElementById('icon').innerHTML = step.icon;
+                document.getElementById('text').innerHTML = step.text;
+                
+                if (step.text.length > 50) document.getElementById('text').classList.add('long-text');
+                else document.getElementById('text').classList.remove('long-text');
+
+                const actionArea = document.getElementById('action');
+                actionArea.innerHTML = '';
+
+                if (step.type === 'button') {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn';
+                    btn.innerText = step.btnText;
+                    btn.onclick = nextStep;
+                    actionArea.appendChild(btn);
+                } else if (step.type === 'auto') {
+                    setTimeout(nextStep, 4500);
+                } else if (step.type === 'final') {
+                    const finalMsg = document.createElement('div');
+                    finalMsg.style.color = '#ffb6c1';
+                    finalMsg.style.fontWeight = 'bold';
+                    finalMsg.innerText = 'انتهت الحكاية.. وتبدأ حكايتنا 🤍';
+                    actionArea.appendChild(finalMsg);
+                }
+
+                card.style.opacity = 1;
+            }, 600);
         }
 
         function nextStep() {
             currentStep++;
-            if (currentStep < steps.length) {
-                showStep();
-            }
+            if (currentStep < storySteps.length) updateUI();
         }
     </script>
 </body>
